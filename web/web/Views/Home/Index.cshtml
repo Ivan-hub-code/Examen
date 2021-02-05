@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+
+}
+
+
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
+        </div>
+
+        <!-- Login Form -->
+        <form>
+            <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
+            <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
+            <input type="button" class="fadeIn fourth" onclick="Logeo()" value="Log In">
+        </form>
+
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
+            <a class="underlineHover" href="#">Forgot Password?</a>
+        </div>
+
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+
+        function Logeo() {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '../Home/Logeo',
+                traditional: true,
+                data: JSON.stringify({ user: $("#login").val(), pass: $("#password").val() }),
+                contentType: "application/json: charset=utf-8",
+                success: function (data) {
+                    if (data.status == false) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'ops...',
+                            text: data.message,
+                        })
+
+
+                    }
+                    else {
+                        switch (data) {
+                            case 1:
+                                window.location.href = '../Acceso/Vista';
+                                break;
+                            default:
+                                break;
+
+                        }
+                    }
+                }
+            })
+        }
+
+    </script>
+
+
+
+}

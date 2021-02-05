@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ExaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Georreferencias">
+    <Key>
+      <PropertyRef Name="idGeorreferencia" />
+    </Key>
+    <Property Name="idGeorreferencia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idEstado" Type="int" />
+    <Property Name="Latitud" Type="float" />
+    <Property Name="Longitud" Type="float" />
+  </EntityType>
+  <EntityType Name="Permisos">
+    <Key>
+      <PropertyRef Name="idUsuario" />
+    </Key>
+    <Property Name="idUsuario" Type="int" Nullable="false" />
+    <Property Name="idEstado" Type="int" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="idUsuario" />
+    </Key>
+    <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Contraseña" Type="nvarchar" MaxLength="255" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="255" />
+    <Property Name="creacion" Type="datetime" />
+    <Property Name="RFC" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityContainer Name="ExaModelStoreContainer">
+    <EntitySet Name="Georreferencias" EntityType="Self.Georreferencias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Permisos" EntityType="Self.Permisos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

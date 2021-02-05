@@ -1,0 +1,611 @@
+﻿
+@{
+    ViewBag.Title = "Vista";
+
+}
+
+
+
+
+
+@{
+    var referi = (web.Controllers.Georreferencia)HttpContext.Current.Session["referencia"];
+
+    if (referi != null)
+    {
+        <br />
+        <div class="form-horizontal" style="width: 550px">
+
+            <div id="us3" style="width: 550px; height: 400px;"></div>
+            <div class="clearfix">&nbsp;</div>
+            <div class="m-t-small">
+                <label class="p-r-small col-sm-1 control-label">Lat.:</label>
+
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" style="width: 110px" id="us3-lat" value="@referi.Latitud" />
+                </div>
+                <label class="p-r-small col-sm-2 control-label">Long.:</label>
+
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" style="width: 110px" id="us3-lon" value="@referi.Longitud" />
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+
+        <h1>Usuarios</h1>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">Registrar Usuario</button>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>idUsuario</th>
+                    <th>Contraseña</th>
+                    <th>Nombre</th>
+                    <th>Creacion</th>
+                    <th>RFC</th>
+                    <th>Eliminar y Actualizar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var q in ViewBag.data)
+                {
+                    <tr>
+                        <td>@q.idUsuario</td>
+                        <td>@q.Contraseña</td>
+                        <td>@q.Nombre</td>
+                        <td>@q.creacion</td>
+                        <td>@q.RFC</td>
+                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="Datos(this)">Editar</button><button type="button" class="btn btn-danger" onclick="Delete(@q.idUsuario)">Eliminar</button></td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+
+
+
+        <h1>Georeferencias</h1>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4">Registrar Regerencia</button>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>idGeorreferencia</th>
+                    <th>idEstado</th>
+                    <th>Latitud</th>
+                    <th>Longitud</th>
+                    <th>Eliminar y Actualizar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var q in ViewBag.datageo)
+                {
+                    <tr>
+                        <td>@q.idGeorreferencia</td>
+                        <td>@q.idEstado</td>
+                        <td>@q.Latitud</td>
+                        <td>@q.Longitud</td>
+                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3" onclick="Datos2(this)">Editar</button><button type="button" class="btn btn-danger" onclick="DeleteRefe(@q.idGeorreferencia)">Eliminar</button></td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+
+
+        <h1>Permisos</h1>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLabel6">Registrar Regerencia</button>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>idUsuario</th>
+                    <th>idEstado</th>
+                    <th>Eliminar y Actualizar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var q in ViewBag.datapermisos)
+                {
+                    <tr>
+                        <td>@q.idUsuario</td>
+                        <td>@q.idEstado</td>
+                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal6" onclick="Datos2(this)">Editar</button><button type="button" class="btn btn-danger" onclick="DeletePermisos(@q.idUsuario)">Eliminar</button></td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+        <div class="modal fade" id="exampleModalLabel6" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel6" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Actualizar usuario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Id Usuario</label>
+                            <input type="text" class="form-control" id="idusuario7">
+                        </div>
+                        <div class="form-group">
+                            <label>Id Estado</label>
+                            <input type="text" class="form-control" id="idestado6">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="InsertPermiso()">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Actualizar usuario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Id</label>
+                            <input type="text" class="form-control" id="id">
+
+                        </div>
+                        <div class="form-group">
+                            <label>Contrasena</label>
+                            <input type="password" class="form-control" id="contrasena" aria-describedby="emailHelp">
+
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" id="nombre" placeholder="nombre">
+                        </div>
+
+                        <div class="form-group">
+                            <label>creacion</label>
+                            <input type="text" class="form-control" id="fecha" placeholder="nombre">
+                        </div>
+
+                        <div class="form-group">
+                            <label>RFC</label>
+                            <input type="text" class="form-control" id="RFC" placeholder="RFC">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="Actualizar()">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Registrar Usuario usuario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Contrasena</label>
+                            <input type="password" class="form-control" id="contrasena1" aria-describedby="emailHelp" placeholder="Enter email">
+
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" id="nombre1" placeholder="nombre">
+                        </div>
+
+                        <div class="form-group">
+                            <label>RFC</label>
+                            <input type="text" class="form-control" id="RFC1" placeholder="nombre">
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="InsertUser()">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Registrar Usuario usuario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label>idestado</label>
+                            <input type="text" class="form-control" id="idestado4" placeholder="nombre">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Latitud</label>
+                            <input type="text" class="form-control" id="Latitud4" placeholder="nombre">
+                        </div>
+                        <div class="form-group">
+                            <label>Longitud</label>
+                            <input type="text" class="form-control" id="Longitud4" placeholder="nombre">
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="InsertGeo()">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Registrar Usuario usuario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>id</label>
+                            <input type="text" class="form-control" id="id2" aria-describedby="emailHelp" placeholder="Enter email">
+
+                        </div>
+                        <div class="form-group">
+                            <label>idestado</label>
+                            <input type="text" class="form-control" id="idestado" placeholder="nombre">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Latitud</label>
+                            <input type="text" class="form-control" id="Latitud" placeholder="nombre">
+                        </div>
+                        <div class="form-group">
+                            <label>Longitud</label>
+                            <input type="text" class="form-control" id="Longitud" placeholder="nombre">
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="InsertUser()">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @section scripts
+        {
+
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src='https://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="~/Scripts/locationpicker.jquery.min.js"></script>
+        <script>
+
+
+            function DeletePermisos(id) {
+
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: '../Acceso/DeletePermisos1',
+                    traditional: true,
+                    data: JSON.stringify({ id: id }),
+                    contentType: "application/json: charset=utf-8",
+                    success: function (data) {
+                        if (data.status == true) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registro Eliminado...',
+                                text: 'Exitoso',
+                            })
+
+                        }
+                    }
+                })
+            }
+
+            function InsertPermiso() {
+
+                var per = {
+                    idEstado: $("#idestado6").val(),
+                    idUsuario: $("#idusuario7").val(),
+                }
+                
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: '../Acceso/insertPerReAsync',
+                    traditional: true,
+                    data: JSON.stringify(per),
+                    contentType: "application/json: charset=utf-8",
+                    success: function (data) {
+                        if (data.status == true) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registro Georeferencia...',
+                                text: 'Exitoso',
+                            })
+                        }
+                    }
+                })
+            }
+
+            function DeleteRefe(id) {
+
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: '../Acceso/DeleteRef',
+                    traditional: true,
+                    data: JSON.stringify({ id: id }),
+                    contentType: "application/json: charset=utf-8",
+                    success: function (data) {
+                        if (data.status == true) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registro Eliminado...',
+                                text: 'Exitoso',
+                            })
+
+                        }
+                    }
+                })
+            }
+
+            function InsertGeo() {
+                var atri = {
+                    idEstado: $("#idestado4").val(),
+                    Latitud: $("#Latitud4").val(),
+                    Longitud: $("#Longitud4").val(),
+
+                };
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: '../Acceso/insertGeoReAsync',
+                    traditional: true,
+                    data: JSON.stringify(atri),
+                    contentType: "application/json: charset=utf-8",
+                    success: function (data) {
+                        if (data.status == true) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registro Georeferencia...',
+                                text: 'Exitoso',
+                            })
+                        }
+                    }
+                })
+            }
+
+
+
+            $('#us3').locationpicker({
+
+                location: {
+                    latitude: $("#us3-lat").val(),
+                    longitude: $("#us3-lon").val()
+                },
+                radius: 300,
+                inputBinding: {
+                    latitudeInput: $('#us3-lat'),
+                    longitudeInput: $('#us3-lon'),
+                    radiusInput: $('#us3-radius'),
+                    locationNameInput: $('#us3-address')
+                },
+                enableAutocomplete: true,
+                onchanged: function (currentLocation, radius, isMarkerDropped) {
+                    // Uncomment line below to show alert on each Location Changed event
+                    //alert("Location changed. New location (" + currentLocation.latitude + ", " + currentLocation.longitude + ")");
+                }
+            });
+
+            function InsertUser() {
+                var user = {
+                    Contraseña: $("#contrasena").val(),
+                    Nombre: $("#nombre").val(),
+                    RFC: $("#RFC").val(),
+
+                };
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: '../Acceso/insertuserAsync',
+                    traditional: true,
+                    data: JSON.stringify(user),
+                    contentType: "application/json: charset=utf-8",
+                    success: function (data) {
+                        if (data.status == true) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registro...',
+                                text: 'Exitoso',
+                            })
+                        }
+                    }
+                })
+            }
+
+
+            function InsertUser() {
+                var user = {
+                    Contraseña: $("#contrasena1").val(),
+                    Nombre: $("#nombre1").val(),
+                    RFC: $("#RFC1").val(),
+
+                };
+                debugger;
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: '../Acceso/insertuserAsync',
+                    traditional: true,
+                    data: JSON.stringify(user),
+                    contentType: "application/json: charset=utf-8",
+                    success: function (data) {
+                        if (data.status == true) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registro...',
+                                text: 'Exitoso',
+                            })
+                        }
+                    }
+                })
+            }
+            var editando = false;
+            function Datos(nodo) {
+
+                debugger;
+
+                //El nodo recibido es SPAN
+
+                if (editando == false) {
+
+                    var nodoTd = nodo.parentNode; //Nodo TD
+
+                    var nodoTr = nodoTd.parentNode; //Nodo TR
+
+                    var nodoContenedorForm = document.getElementById('contenedorForm'); //Nodo DIV
+
+                    var nodosEnTr = nodoTr.getElementsByTagName('td');
+
+                    var idUsuario = nodosEnTr[0].textContent; var calorias = nodosEnTr[1].textContent;
+
+                    var Contraseña = nodosEnTr[1].textContent; var proteina = nodosEnTr[2].textContent;
+
+                    var Nombre = nodosEnTr[2].textContent; var opciones = nodosEnTr[3].textContent;
+
+                    var creacion = nodosEnTr[3].textContent; var opciones = nodosEnTr[4].textContent;
+
+                    var RFC = nodosEnTr[4].textContent; var opciones = nodosEnTr[5].textContent;
+
+
+                    $("#id").val(idUsuario);
+                    $("#contrasena").val(Contraseña);
+                    $("#nombre").val(Nombre);
+                    $("#RFC").val(RFC);
+                    $("#fecha").val(creacion);
+                }
+            }
+
+            function Datos2(nodo) {
+
+                debugger;
+
+                //El nodo recibido es SPAN
+
+                if (editando == false) {
+
+                    var nodoTd = nodo.parentNode; //Nodo TD
+
+                    var nodoTr = nodoTd.parentNode; //Nodo TR
+
+                    var nodoContenedorForm = document.getElementById('contenedorForm'); //Nodo DIV
+
+                    var nodosEnTr = nodoTr.getElementsByTagName('td');
+
+                    var id = nodosEnTr[0].textContent; var calorias = nodosEnTr[1].textContent;
+
+                    var estado = nodosEnTr[1].textContent; var proteina = nodosEnTr[2].textContent;
+
+                    var latitud = nodosEnTr[2].textContent; var opciones = nodosEnTr[3].textContent;
+
+                    var longitud = nodosEnTr[3].textContent; var opciones = nodosEnTr[4].textContent;
+
+
+                    $("#id2").val(id);
+                    $("#idestado").val(estado);
+                    $("#Latitud").val(latitud);
+                    $("#Longitud").val(longitud);
+                }
+            }
+
+
+
+
+            function Actualizar() {
+                var atri = {
+                    idUsuario: $("#id").val(),
+                    Contraseña: $("#contrasena").val(),
+                    Nombre: $("#nombre").val(),
+                    RFC: $("#RFC").val(),
+                    creacion: $("#fecha").val(),
+
+                };
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: '../Acceso/ActuaUserAsync',
+                    traditional: true,
+                    data: JSON.stringify(atri),
+                    contentType: "application/json: charset=utf-8",
+                    success: function (data) {
+                        if (data.status == true) {
+                           
+                        }
+                    }
+                })
+            }
+
+
+
+            function Delete(id) {
+
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: '../Acceso/Delete',
+                    traditional: true,
+                    data: JSON.stringify({ id: id }),
+                    contentType: "application/json: charset=utf-8",
+                    success: function (data) {
+                        if (data.status == true) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registro Eliminado...',
+                                text: 'Exitoso',
+                            })
+
+                        }
+                    }
+                })
+            }
+
+
+
+
+
+
+
+        </script>
+    }
+
+
+}

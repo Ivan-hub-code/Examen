@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ExaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="ExaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Georreferencias" EntityType="ExaModel.Georreferencias" />
+    <EntitySet Name="Usuario" EntityType="ExaModel.Usuario" />
+    <EntitySet Name="Permisos" EntityType="ExaModel.Permisos" />
+  </EntityContainer>
+  <EntityType Name="Georreferencias">
+    <Key>
+      <PropertyRef Name="idGeorreferencia" />
+    </Key>
+    <Property Name="idGeorreferencia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idEstado" Type="Int32" />
+    <Property Name="Latitud" Type="Double" />
+    <Property Name="Longitud" Type="Double" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="idUsuario" />
+    </Key>
+    <Property Name="idUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Contraseña" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="creacion" Type="DateTime" Precision="3" />
+    <Property Name="RFC" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Permisos">
+    <Key>
+      <PropertyRef Name="idUsuario" />
+    </Key>
+    <Property Name="idUsuario" Type="Int32" Nullable="false" />
+    <Property Name="idEstado" Type="Int32" />
+  </EntityType>
+</Schema>
